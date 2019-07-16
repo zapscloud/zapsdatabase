@@ -2,7 +2,7 @@
   "name": "@zapscloud/zapsdatabase",
   "version": "1.0.0",
   "description": "Zapscloud Database Service API Client",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
