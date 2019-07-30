@@ -238,7 +238,7 @@ _Zapscloud Database API Client_
     zapsdb.insertOne(dbclasses, {
         class_id: 10,
         class_name: '10th Standard',
-        class_teacher: randomname(),
+        class_teacher: 'Bobbee Callas',
     })
     .then(function (response) {
         console.log('Class Inserted', response)
