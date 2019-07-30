@@ -5,18 +5,17 @@ _Zapscloud Database API Client_
     
     var zapsdb = new ZapsDB({
         url: 'https://api.zapscloud.com',
-        app: 'appsample',
-        tenant: ' ',
+        app: 'appname',
         authkey: ' ',
-        authsecret: ''
+        authsecret: ' '
     })
     
 **Snippet for Collection create**
 
-    var dbcollection = 'samplecoll'
+    var dbcollection = 'students'
     // Create Collection
     // createCollection(collectionname, collectionkey, description)
-    zapsdb.createCollection(dbcollection, 'key_id', 'Sample Collection')
+    zapsdb.createCollection(dbcollection, 'student_id', 'Students Collection')
     .then(function (response) {
         // collection created successfully
     })
@@ -42,10 +41,10 @@ _Zapscloud Database API Client_
     // Insert a record
     //  insertOne(collectionname, jsondata)
     zapsdb.insertOne(dbcollection, {
-         'key_id':'001',
-         'key_status':'A',
-         'key_value':'Same Values',
-         'key_another_value':123
+        student_id: '0001',
+        student_name: 'Petronia Angeline',
+        student_mark: { maths: 49, science: 95, language: 89 },
+        student_class: 4
     })
     .then(function (response) {
         // insert successful
@@ -60,7 +59,7 @@ _Zapscloud Database API Client_
     // Get a record
     // getOne(collectionname, key, lookupkeys)
     // lookupkeys => helps to retrive relative collection
-    zapsdb.getOne(dbcollection, '001')
+    zapsdb.getOne(dbcollection, '0001')
     .then(function (response) {
         // get successful
     })
@@ -75,7 +74,7 @@ _Zapscloud Database API Client_
     // getMany(collectionname,filterquery)
     // filterquery => query to filter, sort, skip and limit
 
-    zapsdb.getMany(dbcollection, 'key_value=/00/')
+    zapsdb.getMany(dbcollection,'student_class=10')
     .then(function (response) {
         // get successful
     })
@@ -90,7 +89,20 @@ _Zapscloud Database API Client_
     // aggquery => mongodb style aggregation
     // filterquery => query to sort, skip and limit
 
-    zapsdb.getAggregation(dbcollection, '[{"$group":{"_id" : "$key_status", "count":{"$sum":1}, "total" : {"$sum": "$key_another_value"}}}])
+    var aggquery = [{
+            $group: {
+                _id: "$student_class",
+                count: { $sum: 1 },
+                avgmaths: { $avg: "$student_mark.maths"},
+                avgscience: { $avg: "$student_mark.science"},
+                avglanguage: {$avg: "$student_mark.language"}
+            }
+        },{
+            $sort: { _id: 1}
+        }
+    ];
+
+    zapsdb.getAggregation(dbcollection, aggquery)
     .then(function (response) {
         // get successful
     })
@@ -102,14 +114,13 @@ _Zapscloud Database API Client_
 
     // update a record by key
     // updateOne(collectionname, key, setjsondata, unsetjsondata)
-    zapsdb.updateOne(dbcollection, '001', 
-	   {
-         'key_value':'Updated Values'
-        },
-		{
-         'key_another_value':0
-        }
-    )
+
+     var updaterecord = {
+        student_name: 'Amandy Maletta',
+        student_mark: { maths: 95, science: 71, language: 44 },
+        student_class: 10
+    }
+    zapsdb.updateOne(dbcollection, '0001', updaterecord)
     .then(function (response) {
         // set & unset data successful
     })
@@ -121,14 +132,11 @@ _Zapscloud Database API Client_
 
     // update multiple records
     // updateMany(collectionname, filterquery, setjsondata, unsetjsondata)
-    zapsdb.updateMany(dbcollection, 'key_value=/00/&key_another_value > 100', 
-        {
-         'key_value':'Updated Values'
-        },
-        {
-         'key_another_value':0
-        }
-    )
+     var resultupdate = {
+        student_result: 'pass'
+    }
+    zapsdb.updateMany(dbcollection, 
+        'student_mark.maths>40&student_mark.science>40&student_mark.language>40', resultupdate)
     .then(function (response) {
         // set & unset data successful
     })
@@ -137,7 +145,6 @@ _Zapscloud Database API Client_
     });
 
 **Snippet for Delete a Document**
-
      // Delete a record
      // deleteOne(collectionname, key)
     zapsdb.deleteOne(dbcollection, '001')
@@ -153,7 +160,7 @@ _Zapscloud Database API Client_
 
     // Delete multiple records by query
     // deleteMany(collectionname, filterquery)
-    zapsdb.deleteMany(dbcollection, 'key_value=/00/')
+    zapsdb.deleteMany(dbcollection,  'student_mark.maths<25&student_class=10')
     .then(function (response) {
         // delete records with key_value contains '00' successful
     })
@@ -170,7 +177,7 @@ _Zapscloud Database API Client_
 > Query with multiple conditions
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'key_value=/00/&key_another_value>99')
+    zapsdb.getMany(dbcollection,'student_class=10&student_mark.science>10')
     .then(function (response) {
         // get successful
     })
@@ -191,10 +198,10 @@ _Zapscloud Database API Client_
     });
 
 **Snippet for Multiple Document With Sorting**
-> Sorting document with key_value ascending and key_another_value desending
+> Sorting document with student_class desending and student_name ascending
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'sort=key_value,-key_another_value')
+    zapsdb.getMany(dbcollection, 'sort=-student_class,student_name')
     .then(function (response) {
         // get successful
     })
@@ -203,14 +210,14 @@ _Zapscloud Database API Client_
     });
 
 **Snippet for Multiple Document With Search, Sort and Skips**
-> Sorting document with key_value ascending and key_another_value desending
+> Sorting document with student_class desending and student_name ascending
 
-> key_value=/00/ & key_another_value>99 & 
-> sort=key_value,-key_another_value & 
-> skip=2 & limit=10
+> student_class=10 and
+> sort by -student_class,student_name
+> skip=1 and limit=5
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'key_value=/00/&key_another_value>99&sort=key_value,-key_another_value&skip=2&limit=10')
+    zapsdb.getMany(dbcollection, 'student_class=10&sort=-student_class,student_name&skip=1&limit=5')
     .then(function (response) {
         // get successful
     })

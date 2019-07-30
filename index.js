@@ -154,7 +154,6 @@ module.exports = class ZapsDB {
     getMany(collectionname, filterquery) {
         return new Promise((resolve, reject) => {
             var _filterquery = (filterquery ? `${filterquery}` : '');
-            console.log('Get Many ', `${this.zapsurl}/database/${collectionname}?${_filterquery}`)
             axios.get(`${this.zapsurl}/database/${collectionname}?${_filterquery}`, this.header_param)
                 .then(function (response) {
                     return resolve(response.data);
@@ -170,7 +169,7 @@ module.exports = class ZapsDB {
         return new Promise((resolve, reject) => {
             var _filterquery = (filterquery ? `${filterquery}` : '');
 
-            axios.get(`${this.zapsurl}/database/${collectionname}?agg=${aggquery}&${_filterquery}`, this.header_param)
+            axios.get(`${this.zapsurl}/database/${collectionname}?agg=${ JSON.stringify(aggquery)}&${_filterquery}`, this.header_param)
                 .then(function (response) {
                     return resolve(response.data);
                 })
