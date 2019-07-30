@@ -23,19 +23,6 @@ _Zapscloud Database API Client_
         // collection created failed
     });
     
-**Snippet for Collection remove**
-
-    // Remove Collection
-    // removeCollection(collectionname)
-    zapsdb.removeCollection(dbcollection)
-    .then(function (response) {
-        // collection removed successfully
-    })
-    .catch(function (err) {
-        // collection removed failed
-    });
-    
-
 **Snippet for Insert Document**
 
     // Insert a record
@@ -226,3 +213,55 @@ _Zapscloud Database API Client_
         // get failure 
     });
 
+
+**Snippet for Lookup Relations**
+
+
+> Define Relationship between collections and lookup reference values
+
+> Students document has student_class field
+> Create relationship between Classes document and lookup Class document values
+
+> _Create Classes collection_
+
+    zapsdb.createCollection(dbclasses, 'class_id', 'DB for Classes') 
+    .then(function (response) {
+        console.log('Create Collection Query', response)
+    })
+    .catch(function (err) {
+        console.log('Error Create collection', err)
+    });
+
+> _Create Class document_
+
+    zapsdb.insertOne(dbclasses, {
+        class_id: 10,
+        class_name: '10th Standard',
+        class_teacher: randomname(),
+    })
+    .then(function (response) {
+        console.log('Class Inserted', response)
+    })
+    .catch(function (err) {
+        console.log('Error Insert', err)
+    });
+
+> _Create Relation_
+
+    zapsdb.createRelation(dbcollection, 'student_class', 'classes', 'class_id')
+    .then(function (response) {
+        console.log('Relation Created', response)
+    })
+    .catch(function (err) {
+        console.log('Error Relation Create', err)
+    })
+
+> _Lookup with getOne_
+
+    zapsdb.getOne(dbstudents, '001','student_class')
+    .then(function (response) {
+        console.log('Response Query with Class document', response)
+    })
+    .catch(function (err) {
+        console.log('Error Get Details', err)
+    });
