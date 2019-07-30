@@ -12,10 +12,10 @@ _Zapscloud Database API Client_
     
 **Snippet for Collection create**
 
-    var dbcollection = 'students'
+    var dbstudents = 'students'
     // Create Collection
     // createCollection(collectionname, collectionkey, description)
-    zapsdb.createCollection(dbcollection, 'student_id', 'Students Collection')
+    zapsdb.createCollection(dbstudents, 'student_id', 'Students Collection')
     .then(function (response) {
         // collection created successfully
     })
@@ -27,7 +27,7 @@ _Zapscloud Database API Client_
 
     // Insert a record
     //  insertOne(collectionname, jsondata)
-    zapsdb.insertOne(dbcollection, {
+    zapsdb.insertOne(dbstudents, {
         student_id: '0001',
         student_name: 'Petronia Angeline',
         student_mark: { maths: 49, science: 95, language: 89 },
@@ -46,7 +46,7 @@ _Zapscloud Database API Client_
     // Get a record
     // getOne(collectionname, key, lookupkeys)
     // lookupkeys => helps to retrive relative collection
-    zapsdb.getOne(dbcollection, '0001')
+    zapsdb.getOne(dbstudents, '0001')
     .then(function (response) {
         // get successful
     })
@@ -61,7 +61,7 @@ _Zapscloud Database API Client_
     // getMany(collectionname,filterquery)
     // filterquery => query to filter, sort, skip and limit
 
-    zapsdb.getMany(dbcollection,'student_class=10')
+    zapsdb.getMany(dbstudents,'student_class=10')
     .then(function (response) {
         // get successful
     })
@@ -89,7 +89,7 @@ _Zapscloud Database API Client_
         }
     ];
 
-    zapsdb.getAggregation(dbcollection, aggquery)
+    zapsdb.getAggregation(dbstudents, aggquery)
     .then(function (response) {
         // get successful
     })
@@ -107,7 +107,7 @@ _Zapscloud Database API Client_
         student_mark: { maths: 95, science: 71, language: 44 },
         student_class: 10
     }
-    zapsdb.updateOne(dbcollection, '0001', updaterecord)
+    zapsdb.updateOne(dbstudents, '0001', updaterecord)
     .then(function (response) {
         // set & unset data successful
     })
@@ -122,7 +122,7 @@ _Zapscloud Database API Client_
      var resultupdate = {
         student_result: 'pass'
     }
-    zapsdb.updateMany(dbcollection, 
+    zapsdb.updateMany(dbstudents, 
         'student_mark.maths>40&student_mark.science>40&student_mark.language>40', resultupdate)
     .then(function (response) {
         // set & unset data successful
@@ -135,7 +135,7 @@ _Zapscloud Database API Client_
     
      // Delete a record
      // deleteOne(collectionname, key)
-    zapsdb.deleteOne(dbcollection, '001')
+    zapsdb.deleteOne(dbstudents, '001')
     .then(function (response) {
         // delete successful
     })
@@ -148,7 +148,7 @@ _Zapscloud Database API Client_
 
     // Delete multiple records by query
     // deleteMany(collectionname, filterquery)
-    zapsdb.deleteMany(dbcollection,  'student_mark.maths<25&student_class=10')
+    zapsdb.deleteMany(dbstudents,  'student_mark.maths<25&student_class=10')
     .then(function (response) {
         // delete records with key_value contains '00' successful
     })
@@ -165,7 +165,7 @@ _Zapscloud Database API Client_
 > Query with multiple conditions
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection,'student_class=10&student_mark.science>10')
+    zapsdb.getMany(dbstudents,'student_class=10&student_mark.science>10')
     .then(function (response) {
         // get successful
     })
@@ -177,7 +177,7 @@ _Zapscloud Database API Client_
 > Skip 2 records and Limit 10 records
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'skip=2&limit=10')
+    zapsdb.getMany(dbstudents, 'skip=2&limit=10')
     .then(function (response) {
         // get successful
     })
@@ -189,7 +189,7 @@ _Zapscloud Database API Client_
 > Sorting document with student_class desending and student_name ascending
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'sort=-student_class,student_name')
+    zapsdb.getMany(dbstudents, 'sort=-student_class,student_name')
     .then(function (response) {
         // get successful
     })
@@ -205,7 +205,7 @@ _Zapscloud Database API Client_
 > skip=1 and limit=5
 
     // Example of multiple conditions
-    zapsdb.getMany(dbcollection, 'student_class=10&sort=-student_class,student_name&skip=1&limit=5')
+    zapsdb.getMany(dbstudents, 'student_class=10&sort=-student_class,student_name&skip=1&limit=5')
     .then(function (response) {
         // get successful
     })
@@ -220,10 +220,11 @@ _Zapscloud Database API Client_
 > Define Relationship between collections and lookup reference values
 
 > Students document has student_class field
-> Create relationship between Classes document and lookup Class document values
+> Create relationship between Student document and Class document
 
 > _Create Classes collection_
 
+     var dbclasses = 'classes'
     zapsdb.createCollection(dbclasses, 'class_id', 'DB for Classes') 
     .then(function (response) {
         console.log('Create Collection Query', response)
@@ -248,7 +249,7 @@ _Zapscloud Database API Client_
 
 > _Create Relation_
 
-    zapsdb.createRelation(dbcollection, 'student_class', 'classes', 'class_id')
+    zapsdb.createRelation(dbstudents, 'student_class', dbclasses, 'class_id')
     .then(function (response) {
         console.log('Relation Created', response)
     })
