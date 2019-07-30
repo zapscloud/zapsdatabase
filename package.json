@@ -1,6 +1,6 @@
 {
   "name": "@zapscloud/zapsdatabase",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Zapscloud Database Service API Client",
   "keywords": ["zapscloud", "zapsdatabase",  "zaps"],
   "main": "index.js",

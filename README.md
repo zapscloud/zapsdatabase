@@ -1,7 +1,7 @@
 # zapsdatabase
-Zapscloud Database
+_Zapscloud Database API Client_
 
-**Initialize Library with config values **
+**Initialize Library with config values**
     
     var zapsdb = new ZapsDB({
         url: 'https://api.zapscloud.com',
@@ -55,7 +55,7 @@ Zapscloud Database
     });
 
 
-**Snippet for Get Document**
+**Snippet for Get a Document**
 
     // Get a record
     // getOne(collectionname, key, lookupkeys)
@@ -69,7 +69,7 @@ Zapscloud Database
     });
 
 
-**Snippet for Retive Multiple Documents**
+**Snippet for Multiple Document retive**
 
     // Get multiple record
     // getMany(collectionname,filterquery)
@@ -98,7 +98,7 @@ Zapscloud Database
         // get failure 
     });
 
-**Snippet for Update Document**
+**Snippet for Update a Document**
 
     // update a record by key
     // updateOne(collectionname, key, setjsondata, unsetjsondata)
@@ -136,7 +136,7 @@ Zapscloud Database
         // update failure 
     });
 
-**Snippet for Delete Document**
+**Snippet for Delete a Document**
 
      // Delete a record
      // deleteOne(collectionname, key)
