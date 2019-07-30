@@ -145,6 +145,7 @@ _Zapscloud Database API Client_
     });
 
 **Snippet for Delete a Document**
+    
      // Delete a record
      // deleteOne(collectionname, key)
     zapsdb.deleteOne(dbcollection, '001')
