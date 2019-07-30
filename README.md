@@ -86,8 +86,8 @@ _Zapscloud Database API Client_
 
     // Get multiple record
     // getAggregation(collectionname, aggquery, filterquery)
-    // aggquery => mongodb style aggregation
-    // filterquery => query to sort, skip and limit
+    // aggquery => mongodb style aggregation. match, group, sort
+    // filterquery => query to skip and limit
 
     var aggquery = [{
             $group: {
