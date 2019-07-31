@@ -31,7 +31,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -43,7 +43,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -55,7 +55,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -68,7 +68,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -85,7 +85,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -97,7 +97,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -109,7 +109,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -121,7 +121,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -134,7 +134,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -152,7 +152,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -173,7 +173,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -185,7 +185,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -199,7 +199,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -213,7 +213,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -227,7 +227,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
@@ -241,7 +241,7 @@ module.exports = class ZapsDB {
                     return resolve(response.data);
                 })
                 .catch(function (error) {
-                    return reject(error.response.data);
+                    return reject(error.response?error.response.data:error);
                 });
         });
     }
