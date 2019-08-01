@@ -266,3 +266,60 @@ _Zapscloud Database API Client_
     .catch(function (err) {
         console.log('Error Get Details', err)
     });
+
+
+
+**Snippet for Transaction (Commit All or Rollback All)**
+
+* _startTransaction_
+* _commitTransaction_
+* _rollbackTransaction_
+
+> 1. Start a Transaction
+> 2. Create / Update / Delete actions with Transaction
+> 3. Commit / Rollback based on Success / Failure
+
+    var _txn;
+    zapsdb.startTransaction()
+        .then(function (txn) {
+            _txn = txn;            
+            var _stu = { 
+                student_name: 'Maurise Ottie',
+                student_mark: { maths: 6, science: 98, language: 98 },
+                student_class: 6 
+            }
+            return zapsdb.insertOne(dbstudents, _stu , _txn.transaction_id)
+        })
+        .then(function (response) {
+            var resultupdate = {
+                student_result: 'pass'
+            }
+            return zapsdb.updateMany(dbstudents, 'student_mark.maths>40&student_mark.science>40&student_mark.language>40', resultupdate, null , _txn.transaction_id)
+        })
+        .then(function (response) {
+            var _stu = { 
+                student_name: 'Arlee Kermit',
+                student_mark: { maths: 19, science: 79, language: 96 },
+                student_class: 9 
+            }
+            return zapsdb.insertOne(dbstudents, stu, _txn.transaction_id)
+        })
+        .then(function (response) {
+            return zapsdb.deleteMany(dbstudents, 'student_id=/xyz/', _txn.transaction_id)
+        })        
+        .then(function (response) {
+            return zapsdb.commitTransaction(_txn.transaction_id)
+        })
+        .then(function (response) {
+            console.log('Commit Done', response)
+        })
+        .catch(function (err) {
+            console.log('Error Commit', err)
+            return zapsdb.rollbackTransaction(_txn.transaction_id)
+            .then(function(res){
+                console.log('Rollback Done ', res)
+            })
+            .catch(function(err){
+                console.log('Rollback Error', err)
+            })
+        });
