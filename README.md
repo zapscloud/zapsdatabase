@@ -173,6 +173,22 @@ _Zapscloud Database API Client_
         // get failure 
     });
 
+**Snippet for Retive Number in String Documents**
+
+    // Get multiple record
+    // student_id is Numeric stored in String
+
+> Query with String numeric search
+
+    // Example of multiple conditions
+    zapsdb.getMany(dbstudents,'student_id=string(0001)')
+    .then(function (response) {
+        // get successful
+    })
+    .catch(function (err) {
+        // get failure 
+    });
+
 **Snippet for Multiple Document With Skip & Limit**
 > Skip 2 records and Limit 10 records
 
