@@ -156,11 +156,41 @@ _Zapscloud Database API Client_
         // delete failure 
     });
 
+
 **Snippet for Retive Multiple Documents**
 
-    // Get multiple record
+     Get multiple record
     // getMany(collectionname,filterquery)
     // filterquery => query to filter, sort, skip and limit
+
+#### Skip / Limit operators
+
+- Useful to limit the number of records returned.
+- Default operator keys are `skip` and `limit`.
+
+#### Sort operator
+
+- Useful to sort returned records.
+- Default operator key is `sort`.
+- It accepts a comma-separated list of fields. Default behavior is to sort in ascending order. Use `-` prefixes to sort in descending order.
+
+#### Filtering operators
+
+| Function   | URI                  | Example                 |
+| --------- | -------------------- | ----------------------- |
+| `=`     | `key=val`            | `type=public`           |
+| `>`     | `key>val`            | `count>5`               |
+| `>=`    | `key>=val`           | `rating>=9.5`           |
+| `<`     | `key<val`            | `createdAt<2016-01-01`  |
+| `<=`    | `key<=val`           | `score<=-5`             |
+| `!=`     | `key!=val`           | `status!=success`       |
+| `In`     | `key=val1,val2`      | `country=GB,US`         |
+| `Not In`    | `key!=val1,val2`     | `lang!=fr,en`           |
+| `Exist` | `key`                | `phone`                 |
+| `Not Exist` | `!key`               | `!email`                |
+| `Regex`  | `key=/value/<opts>`  | `email=/@gmail\.com$/i` |
+| `Regex`  | `key!=/value/<opts>` | `phone!=/^06/`          |
+
 
 > Query with multiple conditions
 
