@@ -4,7 +4,6 @@ _Zapscloud Database API Client_
 **Initialize Library with config values**
     
     var zapsdb = new ZapsDB({
-        url: 'https://api.zapscloud.com',
         app: 'appname',
         authkey: ' ',
         authsecret: ' '
