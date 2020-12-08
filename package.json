@@ -1,6 +1,6 @@
 {
   "name": "@zapscloud/zapsdatabase",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Zapscloud Database Service API Client",
   "keywords": [
     "zapscloud",
