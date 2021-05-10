@@ -57,10 +57,13 @@ _Zapscloud Database API Client_
 **Snippet for Multiple Document retive**
 
     // Get multiple record
-    // getMany(collectionname,filterquery)
-    // filterquery => query to filter, sort, skip and limit
+    // getMany(collectionname,filterquery, sortquery, skip, limit)
+    // filterquery => query to filter
+    // sortquery => sort order in group items
+    // skip => Skip number of records
+    // limit => Number of records to display
 
-    zapsdb.getMany(dbstudents,'student_class=10')
+    zapsdb.getMany(dbstudents,'{"student_class":10}', `{"student_name":1}`, 0, 20)
     .then(function (response) {
         // get successful
     })
@@ -71,24 +74,26 @@ _Zapscloud Database API Client_
 **Snippet for Aggrigate Documents**
 
     // Get multiple record
-    // getAggregation(collectionname, aggquery, filterquery)
+    // getAggregation(collectionname,filterquery,  aggquery, sortquery, skip, limit)
     // aggquery => mongodb style aggregation. match, group, sort
-    // filterquery => query to skip and limit
+    // filterquery => query to filter
+    // sortquery => sort order in group items
+    // skip => Skip number of records
+    // limit => Number of records to display
 
-    var aggquery = [{
-            $group: {
+    var aggquery = {
                 _id: "$student_class",
                 count: { $sum: 1 },
                 avgmaths: { $avg: "$student_mark.maths"},
                 avgscience: { $avg: "$student_mark.science"},
                 avglanguage: {$avg: "$student_mark.language"}
-            }
-        },{
-            $sort: { _id: 1}
-        }
-    ];
+            };
+            
+    var sortquery = { "_id": 1}
+    var filterquery = { "student_class": 9}
 
-    zapsdb.getAggregation(dbstudents, aggquery)
+
+    zapsdb.getAggregation(dbstudents, filterquery, aggquery, sortquery, 0, 20)
     .then(function (response) {
         // get successful
     })
@@ -99,7 +104,7 @@ _Zapscloud Database API Client_
 **Snippet for Update a Document**
 
     // update a record by key
-    // updateOne(collectionname, key, setjsondata, unsetjsondata)
+    // updateOne(collectionname, key, jsondata)
 
      var updaterecord = {
         student_name: 'Amandy Maletta',
@@ -117,12 +122,12 @@ _Zapscloud Database API Client_
 **Snippet for Update Multiple Documents**
 
     // update multiple records
-    // updateMany(collectionname, filterquery, setjsondata, unsetjsondata)
+    // updateMany(collectionname, filterquery, jsondata)
      var resultupdate = {
         student_result: 'pass'
     }
     zapsdb.updateMany(dbstudents, 
-        'student_mark.maths>40&student_mark.science>40&student_mark.language>40', resultupdate)
+        `{"student_mark.maths":{"$gt":40},"student_mark.science":{"$gt":40}, "student_mark.language":{"$gt":40}}`, resultupdate)
     .then(function (response) {
         // set & unset data successful
     })
@@ -147,7 +152,7 @@ _Zapscloud Database API Client_
 
     // Delete multiple records by query
     // deleteMany(collectionname, filterquery)
-    zapsdb.deleteMany(dbstudents,  'student_mark.maths<25&student_class=10')
+    zapsdb.deleteMany(dbstudents,  '{"student_mark.maths":{"$lt":25}, "student_class":10}')
     .then(function (response) {
         // delete records with key_value contains '00' successful
     })
@@ -172,24 +177,6 @@ _Zapscloud Database API Client_
 - Useful to sort returned records.
 - Default operator key is `sort`.
 - It accepts a comma-separated list of fields. Default behavior is to sort in ascending order. Use `-` prefixes to sort in descending order.
-
-#### Filtering operators
-
-| Function   | URI                  | Example                 |
-| --------- | -------------------- | ----------------------- |
-| `=`     | `key=val`            | `type=public`           |
-| `>`     | `key>val`            | `count>5`               |
-| `>=`    | `key>=val`           | `rating>=9.5`           |
-| `<`     | `key<val`            | `createdAt<2016-01-01`  |
-| `<=`    | `key<=val`           | `score<=-5`             |
-| `!=`     | `key!=val`           | `status!=success`       |
-| `In`     | `key=val1,val2`      | `country=GB,US`         |
-| `Not In`    | `key!=val1,val2`     | `lang!=fr,en`           |
-| `Exist` | `key`                | `phone`                 |
-| `Not Exist` | `!key`               | `!email`                |
-| `Regex`  | `key=/value/<opts>`  | `email=/@gmail\.com$/i` |
-| `Regex`  | `key!=/value/<opts>` | `phone!=/^06/`          |
-
 
 > Query with multiple conditions
 
@@ -222,7 +209,7 @@ _Zapscloud Database API Client_
 > Skip 2 records and Limit 10 records
 
     // Example of multiple conditions
-    zapsdb.getMany(dbstudents, 'skip=2&limit=10')
+    zapsdb.getMany(dbstudents, ``,``,2,10)
     .then(function (response) {
         // get successful
     })
@@ -234,7 +221,7 @@ _Zapscloud Database API Client_
 > Sorting document with student_class desending and student_name ascending
 
     // Example of multiple conditions
-    zapsdb.getMany(dbstudents, 'sort=-student_class,student_name')
+    zapsdb.getMany(dbstudents, ``,'{"student_class":-1,"student_name":1}')
     .then(function (response) {
         // get successful
     })
@@ -250,7 +237,7 @@ _Zapscloud Database API Client_
 > skip=1 and limit=5
 
     // Example of multiple conditions
-    zapsdb.getMany(dbstudents, 'student_class=10&sort=-student_class,student_name&skip=1&limit=5')
+    zapsdb.getMany(dbstudents, `{"student_class":10}`,`{"student_class":-1,"student_name":1}`,1,5')
     .then(function (response) {
         // get successful
     })
